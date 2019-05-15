@@ -37,6 +37,8 @@ class TestAbnormal():
                 if x_test_all_descr[idx] == descr:
                     x_test_descr.append(x_test[idx])
                     y_test_descr.append(y_test[idx])
+            print("x_test_descr shape", x_test_descr.shape)
+            print("y_test_descr shape", y_test_descr.shape)
             roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr)
             print(descr, roc_auc_scores[descr])
 
