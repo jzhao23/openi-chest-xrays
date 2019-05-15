@@ -13,7 +13,7 @@ def show_xray(xray):
     plt.show()
 
 def preprocess_xray(xray_path):
-    xray = image.load_img(xray_path, grayscale=True,
+    xray = image.load_img(xray_path, color_mode="grayscale",
                           target_size=(img_dims[0], img_dims[1], 1))
     xray = image.img_to_array(xray)
     xray = np.dstack([xray, xray, xray])
@@ -53,8 +53,8 @@ def load_X_and_Y(num_examples=-1):
     y_test = np.array(y_test).reshape((-1, 1))
     Y = [y_train, y_dev, y_test]
 
-    print "Number of training examples:", len(x_train)
-    print "Number of dev examples:", len(x_dev)
-    print "Number of test examples:", len(x_test)
+    print("Number of training examples:", len(x_train))
+    print("Number of dev examples:", len(x_dev))
+    print("Number of test examples:", len(x_test))
 
     return X, Y

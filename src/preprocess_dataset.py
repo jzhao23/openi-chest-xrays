@@ -1,11 +1,14 @@
 import os
 import numpy as np
+import collections
 
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 xrays_dir = "../data/xrays"
 reports_dir = "../data/raw_reports"
+show_histogram = True
 
 def save_dataset(dataset):
     '''
@@ -20,11 +23,31 @@ def extract_label_from_report(parsed_report):
     The "normal" label does not overlap with any other label.
     So, if a mesh major is "normal", we return 0. Else, return 1.
     '''
-    majors = parsed_report.mesh.findAll("major")
+    ''' majors = parsed_report.mesh.findAll("major")
     for major in majors:
         if major.getText() == "normal":
             return 0
-    return 1
+    return 1 '''
+    
+    label_info = [0, "normal"]
+    majors = parsed_report.mesh.findAll("major")
+    for major in majors:
+        descr = major.getText()
+
+        slash_idx = descr.find('/')
+        if slash_idx > -1:
+            descr = descr[:slash_idx]
+        
+        comma_idx = descr.find(',')
+        if comma_idx > -1:
+            descr = descr[:comma_idx]
+        
+        if descr == "No Indexing":
+            return -1
+        elif descr != "normal":
+            label_info = [1, descr]
+
+    return label_info
 
 def extract_xray_paths_from_report(parsed_report):
     '''
@@ -58,9 +81,12 @@ def build_dataset(reports):
         parsed = parse_report(report)
         xray_paths = extract_xray_paths_from_report(parsed)
         if len(xray_paths) == 0: continue
-        label = extract_label_from_report(parsed)
+        label_info = extract_label_from_report(parsed)
+        if label_info == -1:
+            continue
         entry = { "xray_paths" : xray_paths, 
-                 "label" : label}
+                 "label" : label_info[0],
+                 "description" : label_info[1]}
         dataset.append(entry)
     dataset = np.array(dataset)
     return dataset
@@ -81,7 +107,26 @@ def get_all_reports():
                  for report in reports]
     return reports
 
+def plot_histogram(dataset, num_most_common):
+    '''
+    dataset (numpy array of dicts): output of build_dataset()
+    num_most_common (int): number of most common labels to plot
+    '''
+    descr_counter = collections.Counter()
+    for report in dataset:
+        descr_counter[report["description"]] += 1
+    most_common = descr_counter.most_common(num_most_common)
+    most_common_descr = []
+    most_common_counts = []
+    for descr, count in most_common:
+        most_common_descr.append(descr)
+        most_common_counts.append(count)
+    plt.bar(most_common_descr, most_common_counts, width=1.0, color='g')
+    plt.show()
+
 if __name__ == "__main__":
     reports = get_all_reports()
     dataset = build_dataset(reports)
     save_dataset(dataset)
+    if show_histogram:
+        plot_histogram(dataset, num_most_common=9) 
