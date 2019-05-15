@@ -1,6 +1,5 @@
 import os
 import numpy as np
-import collections
 
 from bs4 import BeautifulSoup
 from tqdm import tqdm
