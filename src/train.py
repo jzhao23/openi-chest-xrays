@@ -6,7 +6,9 @@ from utils import load_X_and_Y
 
 def train():
     # load data
-    x_train, x_dev, x_test, y_train, y_dev, y_test = load_X_and_Y()
+    X, Y = load_X_and_Y()
+    x_train, x_dev, x_test = X
+    y_train, y_dev, y_test = Y
 
     # train model
     model = CNN()
