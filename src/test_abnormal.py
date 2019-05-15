@@ -32,6 +32,7 @@ class TestAbnormal():
         for descr in most_common_list(self.dataset, num_most_common=9):
             if descr == "normal":
                 continue
+            
             x_test_descr, y_test_descr = [], []
             for idx in range(len(x_test)):
                 if x_test_all_descr[idx] == descr:
@@ -39,8 +40,7 @@ class TestAbnormal():
                     y_test_descr.append(y_test[idx])
             x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
             y_test_descr = np.array(y_test_descr).reshape((-1, 1))
-            print("x_test_descr shape", x_test_descr.shape)
-            print("y_test_descr shape", y_test_descr.shape)
+            
             roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr)
             print(descr, roc_auc_scores[descr])
 
