@@ -1,7 +1,7 @@
 from tensorflow.keras.models import load_model
 from utils import load_X_and_Y
 
-model_path = "~/openi-chest-xrays/src/cnn_baseline.h5"
+model_path = "models/cnn_baseline.h5"
 
 class TestAbnormal():
     def test_top_eight_abnormalities(self, model_path):
