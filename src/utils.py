@@ -20,7 +20,7 @@ def preprocess_xray(xray_path):
     xray = preprocess_input(xray)
     return xray
 
-def load_X_and_Y(num_examples=-1):
+def load_X_and_Y(num_examples=-1, test_only=False):
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     dataset = np.load(os.path.join(curr_dir, "../data/dataset.npy"))
 
@@ -36,16 +36,21 @@ def load_X_and_Y(num_examples=-1):
         xray = preprocess_xray(xray_path)
         label = float(entry["label"])
 
-        if idx <= last_train_idx:
-            x_train.append(xray)
-            y_train.append(label)
-        else:
-            if idx % 2 == 0:
-                x_dev.append(xray)
-                y_dev.append(label)
-            else:
+        if test_only:
+            if idx > last_train_idx and idx % 2 == 1:
                 x_test.append(xray)
                 y_test.append(label)
+        else:
+            if idx <= last_train_idx:
+                x_train.append(xray)
+                y_train.append(label)
+            else:
+                if idx % 2 == 0:
+                    x_dev.append(xray)
+                    y_dev.append(label)
+                else:
+                    x_test.append(xray)
+                    y_test.append(label)
 
     X = [np.array(x_train), np.array(x_dev), np.array(x_test)]
     y_train = np.array(y_train).reshape((-1, 1))
@@ -58,3 +63,36 @@ def load_X_and_Y(num_examples=-1):
     print("Number of test examples:", len(x_test))
 
     return X, Y
+
+def load_X_descr(num_examples=-1, test_only=False):
+    curr_dir = os.path.dirname(os.path.abspath(__file__))
+    dataset = np.load(os.path.join(curr_dir, "../data/dataset.npy"))
+
+    x_train, x_dev, x_test = [], [], []
+
+    if num_examples != -1:
+      dataset = dataset[:num_examples]
+
+    last_train_idx = int(0.8 * len(dataset))
+    for idx, entry in enumerate(tqdm(dataset)):
+        description = entry["description"]
+
+        if test_only:
+            if idx > last_train_idx and idx % 2 == 1:
+                x_test.append(description)
+        else:
+            if idx <= last_train_idx:
+                x_train.append(description)
+            else:
+                if idx % 2 == 0:
+                    x_dev.append(description)
+                else:
+                    x_test.append(description)
+
+    X = [np.array(x_train), np.array(x_dev), np.array(x_test)]
+
+    print("Number of training examples:", len(x_train))
+    print("Number of dev examples:", len(x_dev))
+    print("Number of test examples:", len(x_test))
+
+    return X
