@@ -2,10 +2,10 @@ import keras
 import numpy as np
 
 from datetime import datetime
-from keras import optimizers
-from keras.models import Model, load_model
-from keras.layers import Dense
-from keras.applications.resnet50 import ResNet50
+from tensorflow.keras import optimizers, losses
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.applications.resnet50 import ResNet50
 from sklearn.metrics import roc_auc_score
 
 from utils import img_dims
@@ -25,9 +25,9 @@ class CNN(object):
         model = ResNet50(include_top=False, weights='imagenet',
                          pooling='max', input_shape=img_dims)
         pred = Dense(1, activation='sigmoid')(model.layers[-1].output)
-        self._model = Model(input=model.input, output=pred)
-        self._model.compile(loss=keras.losses.binary_crossentropy,
-            optimizer=keras.optimizers.Adam(lr=lr, decay=lr_decay),
+        self._model = Model(inputs=model.input, outputs=pred)
+        self._model.compile(loss=losses.binary_crossentropy,
+            optimizer=optimizers.Adam(lr=lr, decay=lr_decay),
             metrics=['accuracy'])
 
     def save(self):

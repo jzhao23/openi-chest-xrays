@@ -110,3 +110,6 @@ venv.bak/
 # data files
 data/raw_reports
 data/xrays
+
+# keras models
+src/*.h5

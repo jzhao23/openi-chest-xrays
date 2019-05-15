@@ -47,14 +47,14 @@ def load_X_and_Y(num_examples=-1):
                 x_test.append(xray)
                 y_test.append(label)
 
-    X = [np.array(x_train), np.array(x_dev), np.array(x_test)]
+    '''X = [np.array(x_train), np.array(x_dev), np.array(x_test)]
     y_train = np.array(y_train).reshape((-1, 1))
     y_dev = np.array(y_dev).reshape((-1, 1))
     y_test = np.array(y_test).reshape((-1, 1))
-    Y = [y_train, y_dev, y_test]
+    Y = [y_train, y_dev, y_test]'''
 
     print("Number of training examples:", len(x_train))
     print("Number of dev examples:", len(x_dev))
     print("Number of test examples:", len(x_test))
 
-    return X, Y
+    return np.array(x_train), np.array(x_dev), np.array(x_test), y_train, y_dev, y_test
