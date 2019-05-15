@@ -96,3 +96,22 @@ def load_X_descr(num_examples=-1, test_only=False):
     print("Number of test examples:", len(x_test))
 
     return X
+
+def most_common_list(dataset, num_most_common):
+    '''
+    dataset (numpy array of dicts): output of build_dataset()
+    num_most_common (int): number of most common labels to plot
+    '''
+    descr_counter = collections.Counter()
+    for report in dataset:
+        descr_counter[report["description"]] += 1
+    most_common = descr_counter.most_common(num_most_common)
+    most_common_descr = []
+    most_common_counts = []
+    for descr, count in most_common:
+        most_common_descr.append(descr)
+        most_common_counts.append(count)
+    plt.bar(most_common_descr, most_common_counts, width=1.0, color='g')
+    plt.show()
+
+    return most_common_descr

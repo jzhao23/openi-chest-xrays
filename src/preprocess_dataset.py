@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
+from utils import most_common_list
+
 xrays_dir = "../data/xrays"
 reports_dir = "../data/raw_reports"
 show_histogram = True
@@ -107,26 +109,8 @@ def get_all_reports():
                  for report in reports]
     return reports
 
-def plot_histogram(dataset, num_most_common):
-    '''
-    dataset (numpy array of dicts): output of build_dataset()
-    num_most_common (int): number of most common labels to plot
-    '''
-    descr_counter = collections.Counter()
-    for report in dataset:
-        descr_counter[report["description"]] += 1
-    most_common = descr_counter.most_common(num_most_common)
-    most_common_descr = []
-    most_common_counts = []
-    for descr, count in most_common:
-        most_common_descr.append(descr)
-        most_common_counts.append(count)
-    plt.bar(most_common_descr, most_common_counts, width=1.0, color='g')
-    plt.show()
-
 if __name__ == "__main__":
     reports = get_all_reports()
     dataset = build_dataset(reports)
     save_dataset(dataset)
-    if show_histogram:
-        plot_histogram(dataset, num_most_common=9) 
+    most_common_list(dataset, num_most_common=9) 

@@ -1,9 +1,16 @@
+import os
+import numpy as np
+
 from tensorflow.keras.models import load_model
-from utils import load_X_and_Y, load_X_descr
+from utils import load_X_and_Y, load_X_descr, most_common_list
 
 model_path = "models/cnn_baseline.h5"
 
 class TestAbnormal():
+    def __init__(self):
+        curr_dir = os.path.dirname(os.path.abspath(__file__))
+        self.dataset = np.load(os.path.join(curr_dir, "../data/dataset.npy"))
+
     def test_top_eight_abnormalities(self, model_path):
         # load model
         model = load_model(model_path)
@@ -14,20 +21,22 @@ class TestAbnormal():
         _, _, y_test = Y
 
         X = load_X_descr(test_only=True)
-        _, _, x_test_descr = X
+        _, _, x_test_all_descr = X
 
-        # test model on abnormal categories
-
-        print(len(x_test))
-        print(len(y_test))
-        print(len(x_test_descr))
-
-        count = 0
-        for x in x_test_descr:
-            if count > 5: 
-                break
-            print(x)
-            count += 1
+        # segment test set based on description and obtain accuracies
+        # for each description
+        roc_auc_scores = {}
+           
+        for descr in most_common_list(self.dataset):
+            if descr == "normal":
+                continue
+            x_test_descr, y_test_descr = [], []
+            for idx in x_test:
+                if x_test_all_descr[idx] == descr:
+                    x_test_descr.append(x_test[idx])
+                    y_test_descr.append(y_test[idx])
+            roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr)
+            print(descr, roc_auc_scores[descr])
 
 if __name__ == "__main__":
     test = TestAbnormal()
