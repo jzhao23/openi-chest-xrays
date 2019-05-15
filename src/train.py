@@ -25,15 +25,15 @@ def train(holdout=False, holdout_list=[]):
         holdout_x_dev = []
         holdout_y_dev = []
         for idx in range(len(x_dev)):
-            if x_dev_all_descr[idx] not in holdout_list:
+            if x_dev_all_descr[idx] not in holdout_list:g
                 holdout_x_dev.append(x_dev[idx])
                 holdout_y_dev.append(y_dev[idx])
         
-        x_train = np.ndarray(holdout_x_train).reshape((-1, 224, 224, 3))
-        y_train = np.ndarray(holdout_y_train).reshape((-1, 1))
+        x_train = np.array(holdout_x_train).reshape((-1, 224, 224, 3))
+        y_train = np.array(holdout_y_train).reshape((-1, 1))
 
-        x_dev = np.ndarray(holdout_x_dev).reshape((-1, 224, 224, 3))
-        y_dev = np.ndarray(holdout_y_dev).reshape((-1, 1))
+        x_dev = np.array(holdout_x_dev).reshape((-1, 224, 224, 3))
+        y_dev = np.array(holdout_y_dev).reshape((-1, 1))
     
     # train model
     model = CNN()
