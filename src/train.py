@@ -25,7 +25,7 @@ def train(holdout=False, holdout_list=[]):
         holdout_x_dev = []
         holdout_y_dev = []
         for idx in range(len(x_dev)):
-            if x_dev_all_descr[idx] not in holdout_list:g
+            if x_dev_all_descr[idx] not in holdout_list:
                 holdout_x_dev.append(x_dev[idx])
                 holdout_y_dev.append(y_dev[idx])
         
