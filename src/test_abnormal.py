@@ -4,7 +4,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from utils import load_X_and_Y, load_X_descr, most_common_list
 
-model_path = "models/cnn_baseline.h5"
+model_path = "models/cnn_holdout.h5"
 
 class TestAbnormal():
     def __init__(self):
@@ -40,7 +40,7 @@ class TestAbnormal():
                     y_test_descr.append(y_test[idx])
             x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
             y_test_descr = np.array(y_test_descr).reshape((-1, 1))
-            
+
             roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr)
             print(descr, roc_auc_scores[descr])
 
