@@ -27,11 +27,11 @@ class TestAbnormal():
         # for each description
         roc_auc_scores = {}
            
-        for descr in most_common_list(self.dataset):
+        for descr in most_common_list(self.dataset, num_most_common=9):
             if descr == "normal":
                 continue
             x_test_descr, y_test_descr = [], []
-            for idx in x_test:
+            for idx in range(len(x_test)):
                 if x_test_all_descr[idx] == descr:
                     x_test_descr.append(x_test[idx])
                     y_test_descr.append(y_test[idx])
