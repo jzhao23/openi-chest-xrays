@@ -19,6 +19,8 @@ class TestAbnormal():
         X, Y = load_X_and_Y(test_only=True)
         _, _, x_test = X
         _, _, y_test = Y
+        print("x_test shape", x_test.shape)
+        print("y_test shape", y_test.shape)
 
         X = load_X_descr(test_only=True)
         _, _, x_test_all_descr = X
