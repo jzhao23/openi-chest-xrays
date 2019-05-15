@@ -41,5 +41,5 @@ def train(holdout=False, holdout_list=[]):
     model.evaluate(x_test, y_test)
 
 if __name__ == "__main__":
-    holdout_list = ["Lung", "Spine", "Pulmonary Atelectasis", "Cardiomegaly"]
+    holdout_list = ["Calcinosis", "Opacity", "Thoracic Vertebrae", "Calcified Granuloma"]
     train(holdout=True, holdout_list=holdout_list)
