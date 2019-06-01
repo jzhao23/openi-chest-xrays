@@ -49,9 +49,10 @@ class CNN(object):
     def predict(self, x):
         return self._model.predict(x)
 
-    def evaluate(self, x_test, y_test, is_test):
+    def evaluate(self, x_test, y_test, verbose):
         preds = self.predict(x_test).reshape((-1, 1))
-        if is_test:
+        if verbose == 1:
+            print("Performing Heuristic!")
             new_preds = []
             new_y_test = []
             for idx,pred in enumerate(preds):
