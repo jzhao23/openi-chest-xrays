@@ -51,6 +51,11 @@ class CNN(object):
 
     def evaluate(self, x_test, y_test):
         preds = self.predict(x_test).reshape((-1, 1))
+        roc_auc = roc_auc_score(y_test, preds)
+        return roc_auc
+
+    def test_evaluate(self, x_test, y_test):
+        preds = self.predict(x_test).reshape((-1, 1))
         new_preds = []
         new_y_test = []
         for idx,pred in enumerate(preds):
