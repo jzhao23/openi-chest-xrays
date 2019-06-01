@@ -41,7 +41,7 @@ class TestAbnormal():
             x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
             y_test_descr = np.array(y_test_descr).reshape((-1, 1))
 
-            roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr, is_test=True)
+            roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr, verbose=1)
             print(descr, roc_auc_scores[descr])
 
 if __name__ == "__main__":

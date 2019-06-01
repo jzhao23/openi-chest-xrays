@@ -38,7 +38,7 @@ def train(holdout=False, holdout_list=[]):
     # train model
     model = CNN()
     model.fit(x_train, y_train, x_dev, y_dev, save=True)
-    model.evaluate(x_test, y_test, is_test=False)
+    model.evaluate(x_test, y_test, verbose=0)
 
 if __name__ == "__main__":
     holdout_list = ["Calcinosis", "Opacity", "Thoracic Vertebrae", "Calcified Granuloma"]
