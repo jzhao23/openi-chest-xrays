@@ -3,6 +3,7 @@ import numpy as np
 
 from tensorflow.keras.models import load_model
 from utils import load_X_and_Y, load_X_descr, most_common_list
+from sklearn.metrics import roc_auc_score
 
 model_path = "models/cnn_heuristic.h5"
 
@@ -41,7 +42,17 @@ class TestAbnormal():
             x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
             y_test_descr = np.array(y_test_descr).reshape((-1, 1))
 
-            roc_auc_scores[descr] = model.evaluate(x_test_descr, y_test_descr, verbose=1)
+            preds = model.predict(x_test_descr).reshape((-1, 1))
+            print("Performing Heuristic!")
+            new_preds = []
+            new_y_test = []
+            for idx,pred in enumerate(preds):
+                if pred > 0.4 and pred < 0.6:
+                    continue 
+                new_preds.append(pred)
+                new_y_test.append(y_test_descr[idx])
+            roc_auc_scores[descr] = roc_auc_score(new_y_test, new_preds)
+
             print(descr, roc_auc_scores[descr])
 
 if __name__ == "__main__":
