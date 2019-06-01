@@ -44,6 +44,7 @@ class TestAbnormal():
 
             preds = model.predict(x_test_descr).reshape((-1, 1))
             print(descr + " predictions: ", preds)
+            print(descr + "labels: ", y_test_descr)
             print("Performing Heuristic!")
             new_preds = []
             new_y_test = []
@@ -52,6 +53,8 @@ class TestAbnormal():
                     continue 
                 new_preds.append(pred)
                 new_y_test.append(y_test_descr[idx])
+            print(descr + " formatted predictions: ", new_preds)
+            print(descr + " formatted predictions: ", new_y_test)
             roc_auc_scores[descr] = roc_auc_score(new_y_test, new_preds)
 
             print(descr, roc_auc_scores[descr])
