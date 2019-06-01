@@ -43,6 +43,7 @@ class TestAbnormal():
             y_test_descr = np.array(y_test_descr).reshape((-1, 1))
 
             preds = model.predict(x_test_descr).reshape((-1, 1))
+            print(descr + " predictions: ", preds)
             print("Performing Heuristic!")
             new_preds = []
             new_y_test = []
