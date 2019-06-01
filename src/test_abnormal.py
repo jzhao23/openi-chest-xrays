@@ -46,16 +46,13 @@ class TestAbnormal():
             print(descr + " predictions: ", preds)
             print(descr + "labels: ", y_test_descr)
             print("Performing Heuristic!")
-            new_preds = []
-            new_y_test = []
-            for idx,pred in enumerate(preds):
-                if pred > 0.4 and pred < 0.6:
-                    continue 
-                new_preds.append(pred)
-                new_y_test.append(y_test_descr[idx])
-            print(descr + " formatted predictions: ", new_preds)
-            print(descr + " formatted predictions: ", new_y_test)
-            roc_auc_scores[descr] = roc_auc_score(new_y_test, new_preds)
+            for i in range(len(preds)):
+                if preds[i] > 0.4 and preds[i] < 0.6:
+                    preds.pop(i)
+                    y_test_descr.pop(i)
+            print(descr + " formatted predictions: ", preds)
+            print(descr + " formatted labels: ", y_test_descr)
+            roc_auc_scores[descr] = roc_auc_score(y_test_descr, preds)
 
             print(descr, roc_auc_scores[descr])
 

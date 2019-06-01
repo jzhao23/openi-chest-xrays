@@ -49,7 +49,7 @@ class CNN(object):
     def predict(self, x):
         return self._model.predict(x)
 
-    def evaluate(self, x_test, y_test, verbose):
+    def evaluate(self, x_test, y_test):
         preds = self.predict(x_test).reshape((-1, 1))
         roc_auc = roc_auc_score(y_test, preds)
         return roc_auc
