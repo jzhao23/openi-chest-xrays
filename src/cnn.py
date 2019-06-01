@@ -49,20 +49,17 @@ class CNN(object):
     def predict(self, x):
         return self._model.predict(x)
 
-    def evaluate(self, x_test, y_test):
+    def evaluate(self, x_test, y_test, is_test):
         preds = self.predict(x_test).reshape((-1, 1))
-        roc_auc = roc_auc_score(y_test, preds)
+        if is_test:
+            new_preds = []
+            new_y_test = []
+            for idx,pred in enumerate(preds):
+                if pred > 0.4 and pred < 0.6:
+                    continue 
+                new_preds.append(pred)
+                new_y_test.append(y_test[idx])
+            roc_auc = roc_auc_score(new_y_test, new_preds)
+        else:
+            roc_auc = roc_auc_score(y_test, preds)
         return roc_auc
-
-    def test_evaluate(self, x_test, y_test):
-        preds = self.predict(x_test).reshape((-1, 1))
-        new_preds = []
-        new_y_test = []
-        for idx,pred in enumerate(preds):
-            if pred > 0.4 and pred < 0.6:
-                continue 
-            new_preds.append(pred)
-            new_y_test.append(y_test[idx])
-        roc_auc = roc_auc_score(new_y_test, new_preds)
-        return roc_auc
-
