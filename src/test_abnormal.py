@@ -4,7 +4,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from utils import load_X_and_Y, load_X_descr, most_common_list
 
-model_path = "models/cnn_baseline.h5"
+model_path = "models/cnn_heuristic.h5"
 
 class TestAbnormal():
     def __init__(self):
