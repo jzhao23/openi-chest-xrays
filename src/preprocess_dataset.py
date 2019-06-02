@@ -45,8 +45,10 @@ def extract_label_from_report(parsed_report):
         
         if descr == "No Indexing":
             return -1
-        elif descr != "normal":
+        elif descr in ["Calcinosis", "Opacity", "Thoracic Vertebrae", "Calcified Granuloma"]:
             label_info = [1, descr]
+        else:
+            label_info = [0, descr]
 
     return label_info
 
