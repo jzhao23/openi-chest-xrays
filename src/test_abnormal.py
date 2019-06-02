@@ -39,10 +39,10 @@ class TestAbnormal():
                 if x_test_all_descr[idx] == descr:
                     x_test_descr.append(x_test[idx])
                     y_test_descr.append(y_test[idx])
-            x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
-            y_test_descr = np.array(y_test_descr).reshape((-1, 1))
+            """x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
+            y_test_descr = np.array(y_test_descr).reshape((-1, 1))"""
 
-            preds = model.predict(x_test_descr).reshape((-1, 1))
+            preds = model.predict(x_test_descr)  #.reshape((-1,1))
             print(descr + " predictions: ", preds)
             print(descr + "labels: ", y_test_descr)
             print("Performing Heuristic!")
@@ -50,6 +50,9 @@ class TestAbnormal():
                 if preds[i] > 0.4 and preds[i] < 0.6:
                     preds.pop(i)
                     y_test_descr.pop(i)
+            x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
+            y_test_descr = np.array(y_test_descr).reshape((-1, 1))
+            preds.reshape((-1, 1))
             print(descr + " formatted predictions: ", preds)
             print(descr + " formatted labels: ", y_test_descr)
             roc_auc_scores[descr] = roc_auc_score(y_test_descr, preds)
