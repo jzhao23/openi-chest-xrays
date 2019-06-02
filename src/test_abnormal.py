@@ -43,16 +43,22 @@ class TestAbnormal():
             #y_test_descr = np.array(y_test_descr).reshape((-1, 1))
 
             preds = model.predict(x_test_descr)  #.reshape((-1,1))
-            print(descr + " predictions: ", preds)
-            print(descr + "labels: ", y_test_descr)
+            preds_list = []
+            for pred in preds:
+                preds_list.append(pred)
+            y_list = []
+            for label in y_test_descr:
+                y_list.append(label)
+            print(descr + " predictions: ", preds_list)
+            print(descr + "labels: ", y_list)
             print("Performing Heuristic!")
-            for i in range(len(preds)):
-                if preds[i] > 0.4 and preds[i] < 0.6:
-                    preds.pop(i)
-                    y_test_descr.pop(i)
+            for i in range(len(preds_list)):
+                if preds_list[i] > 0.4 and preds_list[i] < 0.6:
+                    preds_list.pop(i)
+                    y_list.pop(i)
             #x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
-            y_test_descr = np.array(y_test_descr).reshape((-1, 1))
-            preds.reshape((-1, 1))
+            y_test_descr = np.array(y_list).reshape((-1, 1))
+            preds = np.array(preds_list).reshape((-1, 1))
             print(descr + " formatted predictions: ", preds)
             print(descr + " formatted labels: ", y_test_descr)
             roc_auc_scores[descr] = roc_auc_score(y_test_descr, preds)
