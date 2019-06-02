@@ -40,10 +40,10 @@ class TestAbnormal():
                     x_test_descr.append(x_test[idx])
                     y_test_descr.append(y_test[idx])
             x_test_descr = np.array(x_test_descr).reshape((-1, 224, 224, 3))
-            #y_test_descr = np.array(y_test_descr).reshape((-1, 1))
+            y_test_descr = np.array(y_test_descr).reshape((-1, 1))
 
-            preds = model.predict(x_test_descr)  #.reshape((-1,1))
-            preds_list = []
+            preds = model.predict(x_test_descr).reshape((-1,1))
+            """preds_list = []
             for pred in preds:
                 preds_list.append(pred)
             y_list = []
@@ -63,8 +63,13 @@ class TestAbnormal():
             y_test_descr = np.array(new_y_list).reshape((-1, 1))
             preds = np.array(new_preds_list).reshape((-1, 1))
             print(descr + " formatted predictions: ", preds)
-            print(descr + " formatted labels: ", y_test_descr)
-            roc_auc_scores[descr] = roc_auc_score(y_test_descr, preds)
+            print(descr + " formatted labels: ", y_test_descr)"""
+            preds = np.reshape((-1,)).tolist()
+            y_test_descr = np.reshape((-1,)).tolist()
+            print("preds: ", preds)
+            print("y_test_labels: ", y_test_descr)
+            
+            #roc_auc_scores[descr] = roc_auc_score(y_test_descr, preds)
 
             print(descr, roc_auc_scores[descr])
 
