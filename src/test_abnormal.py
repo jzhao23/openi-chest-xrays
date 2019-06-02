@@ -73,7 +73,7 @@ class TestAbnormal():
             for i, pred in enumerate(preds):
                 if pred < 0.5 and y_test_descr[i] == 0.0:
                     n_correct += 1
-                elif pred >= 0.5 and y_test_descr == 1.0:
+                elif pred >= 0.5 and y_test_descr[i] == 1.0:
                     n_correct += 1
             acc = (n_correct * 1.0) / len(preds)
                     
