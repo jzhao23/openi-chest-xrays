@@ -64,8 +64,8 @@ class TestAbnormal():
             preds = np.array(new_preds_list).reshape((-1, 1))
             print(descr + " formatted predictions: ", preds)
             print(descr + " formatted labels: ", y_test_descr)"""
-            preds = np.reshape((-1,)).tolist()
-            y_test_descr = np.reshape((-1,)).tolist()
+            preds = preds.reshape((-1,)).tolist()
+            y_test_descr = y_test_descr.reshape((-1,)).tolist()
             print("preds: ", preds)
             print("y_test_labels: ", y_test_descr)
             
