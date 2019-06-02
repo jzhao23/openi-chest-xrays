@@ -69,9 +69,19 @@ class TestAbnormal():
             print("preds: ", preds)
             print("y_test_labels: ", y_test_descr)
             
+            n_correct = 0
+            for i, pred in enumerate(preds):
+                if pred < 0.5 and y_test_descr[i] == 0.0:
+                    n_correct += 1
+                elif pred >= 0.5 and y_test_descr == 1.0:
+                    n_correct += 1
+            acc = (n_correct * 1.0) / len(preds)
+                    
             #roc_auc_scores[descr] = roc_auc_score(y_test_descr, preds)
 
-            print(descr, roc_auc_scores[descr])
+            #print(descr, roc_auc_scores[descr])
+
+            print(descr, acc)
 
 if __name__ == "__main__":
     test = TestAbnormal()
