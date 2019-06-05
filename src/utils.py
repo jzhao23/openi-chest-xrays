@@ -21,7 +21,15 @@ def preprocess_xray(xray_path):
     xray = preprocess_input(xray)
     return xray
 
-def load_X_and_Y(num_examples=-1, test_only=False):
+def preprocess_xray_flipped(xray_path):
+    xray = image.load_img(xray_path, color_mode="grayscale", vertical_flip=True,
+                          target_size=(img_dims[0], img_dims[1], 1))
+    xray = image.img_to_array(xray)
+    xray = np.dstack([xray, xray, xray])
+    xray = preprocess_input(xray)
+    return xray
+
+def load_X_and_Y(num_examples=-1, test_only=False, flipped_test=False):
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     dataset = np.load(os.path.join(curr_dir, "../data/dataset.npy"))
 
@@ -39,8 +47,14 @@ def load_X_and_Y(num_examples=-1, test_only=False):
 
         if test_only:
             if idx > last_train_idx and idx % 2 == 1:
-                x_test.append(xray)
-                y_test.append(label)
+                if flipped_test:
+                    flipped = preprocess_xray_flipped(xray_path)
+                    x_test.append(flipped)
+                    y_test.append(1)
+                else:
+                    x_test.append(xray)
+                    y_test.append(label)
+
         else:
             if idx <= last_train_idx:
                 x_train.append(xray)
@@ -50,8 +64,13 @@ def load_X_and_Y(num_examples=-1, test_only=False):
                     x_dev.append(xray)
                     y_dev.append(label)
                 else:
-                    x_test.append(xray)
-                    y_test.append(label)
+                    if flipped_test:
+                        flipped = preprocess_xray_flipped(xray_path)
+                        x_test.append(flipped)
+                        y_test.append(1)
+                    else:
+                        x_test.append(xray)
+                        y_test.append(label)
 
     X = [np.array(x_train), np.array(x_dev), np.array(x_test)]
     y_train = np.array(y_train).reshape((-1, 1))

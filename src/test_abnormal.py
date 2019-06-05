@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from utils import load_X_and_Y, load_X_descr, most_common_list
 from sklearn.metrics import roc_auc_score
 
-model_path = "models/cnn_heuristic.h5"
+model_path = "models/this_one1.h5"
 
 class TestAbnormal():
     def __init__(self):
